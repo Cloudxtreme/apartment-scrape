@@ -16,7 +16,8 @@ ActiveRecord::Schema.define(:version => 20101219032133) do
     t.string   "title"
     t.decimal  "price"
     t.string   "bedrooms"
-    t.string   "address"
+    t.string   "link"
+    t.datetime "posted_at"
     t.boolean  "cats"
     t.decimal  "cats_deposit"
     t.decimal  "cats_rent"
@@ -26,10 +27,20 @@ ActiveRecord::Schema.define(:version => 20101219032133) do
     t.text     "pros"
     t.text     "cons"
     t.text     "other"
-    t.string   "link"
-    t.datetime "posted_at"
+    t.string   "address"
+    t.string   "city_state_zip"
+    t.string   "country"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.boolean  "ignore",         :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "apartments", ["ignore"], :name => "index_apartments_on_ignore"
+  add_index "apartments", ["latitude", "longitude"], :name => "index_apartments_on_latitude_and_longitude"
+  add_index "apartments", ["link"], :name => "index_apartments_on_link", :unique => true
+  add_index "apartments", ["posted_at"], :name => "index_apartments_on_posted_at"
+  add_index "apartments", ["price"], :name => "index_apartments_on_price"
 
 end
