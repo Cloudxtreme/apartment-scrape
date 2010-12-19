@@ -1,0 +1,51 @@
+<h1>Listing apartments</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Price</th>
+    <th>Bedrooms</th>
+    <th>Address</th>
+    <th>Cats</th>
+    <th>Cats deposit</th>
+    <th>Cats rent</th>
+    <th>Parking</th>
+    <th>Parking rent</th>
+    <th>Laundry</th>
+    <th>Pros</th>
+    <th>Cons</th>
+    <th>Other</th>
+    <th>Link</th>
+    <th>Posted at</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @apartments.each do |apartment| %>
+  <tr>
+    <td><%= apartment.title %></td>
+    <td><%= apartment.price %></td>
+    <td><%= apartment.bedrooms %></td>
+    <td><%= apartment.address %></td>
+    <td><%= apartment.cats %></td>
+    <td><%= apartment.cats_deposit %></td>
+    <td><%= apartment.cats_rent %></td>
+    <td><%= apartment.parking %></td>
+    <td><%= apartment.parking_rent %></td>
+    <td><%= apartment.laundry %></td>
+    <td><%= apartment.pros %></td>
+    <td><%= apartment.cons %></td>
+    <td><%= apartment.other %></td>
+    <td><%= apartment.link %></td>
+    <td><%= apartment.posted_at %></td>
+    <td><%= link_to 'Show', apartment %></td>
+    <td><%= link_to 'Edit', edit_apartment_path(apartment) %></td>
+    <td><%= link_to 'Destroy', apartment, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Apartment', new_apartment_path %>

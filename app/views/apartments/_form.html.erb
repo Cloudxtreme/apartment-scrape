@@ -1,0 +1,77 @@
+<%= form_for(@apartment) do |f| %>
+  <% if @apartment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@apartment.errors.count, "error") %> prohibited this apartment from being saved:</h2>
+
+      <ul>
+      <% @apartment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :price %><br />
+    <%= f.text_field :price %>
+  </div>
+  <div class="field">
+    <%= f.label :bedrooms %><br />
+    <%= f.text_field :bedrooms %>
+  </div>
+  <div class="field">
+    <%= f.label :address %><br />
+    <%= f.text_field :address %>
+  </div>
+  <div class="field">
+    <%= f.label :cats %><br />
+    <%= f.check_box :cats %>
+  </div>
+  <div class="field">
+    <%= f.label :cats_deposit %><br />
+    <%= f.text_field :cats_deposit %>
+  </div>
+  <div class="field">
+    <%= f.label :cats_rent %><br />
+    <%= f.text_field :cats_rent %>
+  </div>
+  <div class="field">
+    <%= f.label :parking %><br />
+    <%= f.check_box :parking %>
+  </div>
+  <div class="field">
+    <%= f.label :parking_rent %><br />
+    <%= f.text_field :parking_rent %>
+  </div>
+  <div class="field">
+    <%= f.label :laundry %><br />
+    <%= f.check_box :laundry %>
+  </div>
+  <div class="field">
+    <%= f.label :pros %><br />
+    <%= f.text_area :pros %>
+  </div>
+  <div class="field">
+    <%= f.label :cons %><br />
+    <%= f.text_area :cons %>
+  </div>
+  <div class="field">
+    <%= f.label :other %><br />
+    <%= f.text_area :other %>
+  </div>
+  <div class="field">
+    <%= f.label :link %><br />
+    <%= f.text_field :link %>
+  </div>
+  <div class="field">
+    <%= f.label :posted_at %><br />
+    <%= f.datetime_select :posted_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
