@@ -42,6 +42,13 @@ class CraigslistUpdater
   def parse_link(link)
     Rails.logger.debug "Parsing Craigslist posting: #{link['href']}"
     apt = Apartment.parse(link)
+
+    # if post is flagged for removal
+    if apt.nil?
+      $stdout.write 'X'
+      return true
+    end
+
     apt.save!
     @new_count += 1
     $stdout.write '.'

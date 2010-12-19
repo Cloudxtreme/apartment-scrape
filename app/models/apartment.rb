@@ -20,6 +20,8 @@ class Apartment < ActiveRecord::Base
     # parse body
     doc = Nokogiri::HTML(open(attributes[:link]))
 
+    return nil if (doc / 'h2').text =~ /This posting has been flagged for removal./
+
     attributes[:posted_at] = Time.parse((doc/'/html/body').children[12].text)
 
     cats_item = (doc / 'ul[class=blurbs]/li').find {|li| li.text =~ /cats/}
@@ -34,6 +36,13 @@ class Apartment < ActiveRecord::Base
       attributes[:country] = query[:country]
     end
 
-    self.new(attributes)
+    apt = self.new(attributes)
+
+    unless apt.address.blank?
+      result = Geokit::Geocoders::GoogleGeocoder.geocode(apt.full_address)
+      apt.latitude = result.lat
+      apt.longitude = result.lng
+    end
+    apt
   end
 end
