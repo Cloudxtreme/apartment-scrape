@@ -4,19 +4,13 @@
   <tr>
     <th>Title</th>
     <th>Price</th>
-    <th>Bedrooms</th>
+    <th>BDR</th>
     <th>Address</th>
     <th>Cats</th>
-    <th>Cats deposit</th>
-    <th>Cats rent</th>
     <th>Parking</th>
-    <th>Parking rent</th>
     <th>Laundry</th>
-    <th>Pros</th>
-    <th>Cons</th>
-    <th>Other</th>
     <th>Link</th>
-    <th>Posted at</th>
+    <th>Posted</th>
     <th></th>
     <th></th>
     <th></th>
@@ -25,23 +19,18 @@
 <% @apartments.each do |apartment| %>
   <tr>
     <td><%= apartment.title %></td>
-    <td><%= apartment.price %></td>
+    <td><%= price(apartment.price) %></td>
     <td><%= apartment.bedrooms %></td>
-    <td><%= apartment.address %></td>
-    <td><%= apartment.cats %></td>
-    <td><%= apartment.cats_deposit %></td>
-    <td><%= apartment.cats_rent %></td>
-    <td><%= apartment.parking %></td>
-    <td><%= apartment.parking_rent %></td>
-    <td><%= apartment.laundry %></td>
-    <td><%= apartment.pros %></td>
-    <td><%= apartment.cons %></td>
-    <td><%= apartment.other %></td>
-    <td><%= apartment.link %></td>
-    <td><%= apartment.posted_at %></td>
+    <td><%= google_maps_link(apartment.address, apartment.full_address) %></td>
+    <td><%= pet_price(apartment, :cats) %></td>
+    <td><%= amenity_price(apartment, :parking) %></td>
+    <td><%= yes_or_no(apartment.laundry) %></td>
+    <td><%= link_to 'link', apartment.link %></td>
+    <td><%= time_ago_in_words(apartment.posted_at) + " ago" %></td>
     <td><%= link_to 'Show', apartment %></td>
     <td><%= link_to 'Edit', edit_apartment_path(apartment) %></td>
-    <td><%= link_to 'Destroy', apartment, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', apartment, :confirm => 'Are you sure?',
+      :method => :delete %></td>
   </tr>
 <% end %>
 </table>

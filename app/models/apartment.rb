@@ -23,11 +23,11 @@ class Apartment < ActiveRecord::Base
     attributes[:posted_at] = Time.parse((doc/'/html/body').children[12].text)
 
     cats_item = (doc / 'ul[class=blurbs]/li').find {|li| li.text =~ /cats/}
-    attributes[:cats] = (cats_item.text == 'cats are OK - purrr') unless cats_item.nil?
+    attributes[:cats] = !!(cats_item.text =~ /cats are OK - purrr/) unless cats_item.nil?
 
     # get address from link to Yahoo Maps
     yahoo_link = (doc/'/html/body/div/small/a').last
-    attributes[:address] = unless yahoo_link.nil?
+    unless yahoo_link.nil?
       query = QueryParams.parse(URI.parse(yahoo_link['href']).query)
       attributes[:address] = query[:addr]
       attributes[:city_state_zip] = query[:csz]
