@@ -73,4 +73,9 @@ var helpers = {
   edit_path: function (id) {
       return "/apartments/" + id + "/edit";
     },
+  icon_url: function (score) {
+      if (score === null) score = 0;
+      return 'http://www.google.com/intl/en_us/mapfiles/ms/micons/' +
+          ['red', 'pink', 'yellow', 'purple', 'blue', 'green'][score] + '.png';
+    },
 };

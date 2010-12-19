@@ -46,7 +46,7 @@ class ApartmentsController < ApplicationController
   private
 
   def apply_filters
-    filters = []
+    filters = [{:ignore => false}]
     filters << {:cats => parse_boolean(params[:cats])} if params[:cats]
     filters << "address NOT NULL" if params[:address]
     filters << ['price < ?', params[:max_price]] if params[:max_price]

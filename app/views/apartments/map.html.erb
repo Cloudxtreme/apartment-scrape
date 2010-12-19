@@ -45,13 +45,13 @@
         </table>
 
         <p>Pros:</p>
-        ${helpers.list(pros)}
+        ${pros}
 
         <p>Cons:</p>
-        ${helpers.list(cons)}
+        ${cons}
 
         <p>Other:</p>
-        ${helpers.list(other)}
+        ${other}
       </div>
 
       <div class="address">
@@ -85,6 +85,7 @@
         var marker = new google.maps.Marker({
           title: apartment.price + " -- " + apartment.title,
           position: latlng,
+          icon: helpers.icon_url(apartment.score),
           map: map
         });
 
