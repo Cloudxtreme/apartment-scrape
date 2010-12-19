@@ -9,5 +9,35 @@ body {
 }
 
 #map_canvas {
-  height: 100%
+  height: 100%;
+  width: 100%;
+  /*float: left;*/
+}
+
+.info_ballon h2 {
+  line-height: 120%;
+}
+
+.info_balloon h2 .title{
+  font-weight: normal;
+}
+
+.info_balloon div.details {
+  float: left;
+}
+
+.info_balloon div.details table th {
+  text-align: right;
+}
+
+.info_balloon div.details p {
+  font-weight: bold;
+}
+
+.info_balloon div.address {
+  float: right;
+}
+
+.clearfix {
+  clear: both;
 }

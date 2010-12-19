@@ -6,6 +6,7 @@ class CreateApartments < ActiveRecord::Migration
       t.string :bedrooms
       t.string :link
       t.datetime :posted_at
+      t.integer :floor_space
 
       t.boolean :cats
       t.decimal :cats_deposit
@@ -25,6 +26,7 @@ class CreateApartments < ActiveRecord::Migration
       t.float :latitude
       t.float :longitude
 
+      t.integer :score
       t.boolean :ignore, :null => false, :default => false
 
       t.timestamps

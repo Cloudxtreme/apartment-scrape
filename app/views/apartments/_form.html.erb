@@ -16,41 +16,57 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :price %><br />
-    <%= f.text_field :price %>
+    <%= f.label :price, 'Rent' %><br />
+    $<%= f.number_field :price %>
   </div>
   <div class="field">
     <%= f.label :bedrooms %><br />
     <%= f.text_field :bedrooms %>
   </div>
   <div class="field">
+    <%= f.label :floor_space %><br />
+    <%= f.number_field :floor_space %> (ft<sup>2</sup>)
+  </div>
+  <div class="field">
+    <%= f.label :score %><br />
+    <%= f.number_field :score, :min => 0, :max => 5 %>
+  </div>
+  <div class="field">
     <%= f.label :address %><br />
     <%= f.text_field :address %>
   </div>
+
+  <hr />
+
   <div class="field">
-    <%= f.label :cats %><br />
+    <%= f.label :cats, 'Allows Cats?' %><br />
     <%= f.check_box :cats %>
   </div>
   <div class="field">
-    <%= f.label :cats_deposit %><br />
-    <%= f.text_field :cats_deposit %>
+    <%= f.label :cats_deposit, 'Deposit for Cat' %><br />
+    $<%= f.text_field :cats_deposit %>
   </div>
   <div class="field">
-    <%= f.label :cats_rent %><br />
-    <%= f.text_field :cats_rent %>
+    <%= f.label :cats_rent, 'Rent for Cat' %><br />
+    $<%= f.text_field :cats_rent %>
   </div>
+
   <div class="field">
-    <%= f.label :parking %><br />
+    <%= f.label :parking, 'Provides Parking?' %><br />
     <%= f.check_box :parking %>
   </div>
   <div class="field">
-    <%= f.label :parking_rent %><br />
+    <%= f.label :parking_rent, 'Cost of Parking' %><br />
     <%= f.text_field :parking_rent %>
   </div>
+
   <div class="field">
-    <%= f.label :laundry %><br />
+    <%= f.label :laundry, 'Provides Laundry?' %><br />
     <%= f.check_box :laundry %>
   </div>
+
+  <hr />
+
   <div class="field">
     <%= f.label :pros %><br />
     <%= f.text_area :pros %>
@@ -60,12 +76,13 @@
     <%= f.text_area :cons %>
   </div>
   <div class="field">
-    <%= f.label :other %><br />
+    <%= f.label :other, 'Other Comments' %><br />
     <%= f.text_area :other %>
   </div>
+
   <div class="field">
     <%= f.label :link %><br />
-    <%= f.text_field :link %>
+    <%= f.url_field :link %>
   </div>
   <div class="field">
     <%= f.label :posted_at %><br />

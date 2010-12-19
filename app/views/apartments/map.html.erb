@@ -1,39 +1,102 @@
-<h1><%= I18n.translate :listing, :count => @apartments.count %></h1>
-
 <% content_for :head do %>
+  <script id="infoWindowTemplate" type="text/x-jquery-tmpl">
+    <div class="info_balloon">
+      <h2>
+        ${helpers.price(price)} ${helpers.bedrooms(bedrooms)}
+        <span class="title">&mdash; ${title}</span>
+      </h2>
+
+      <div class="info">
+        <strong>${DateHelper.time_ago_in_words_with_parsing(posted_at)}</strong>
+
+        {{if link}}
+          &mdash;
+          <small><a href="${link}">${link}</a></small>
+        {{/if}}
+
+        <a class="edit_link" href="${helpers.edit_path(id)}">edit</a>
+      </div>
+      <hr />
+
+      <div class="details">
+        <table>
+          <tr>
+            <th>Floor Space:</th>
+            <td>${floor_space}</td>
+          </tr>
+          <tr>
+            <th>Cats:</th>
+            <td>
+              ${helpers.yes_or_no(cats)}
+              ${helpers.extra_rent_and_deposit(cats_rent, cats_deposit)}
+            </td>
+          </tr>
+          <tr>
+            <th>Parking:</th>
+            <td>
+              ${helpers.yes_or_no(parking)}
+              ${helpers.extra_rent(parking_rent)}
+            </td>
+          </tr>
+          <tr>
+            <th>Laundry:</th>
+            <td>${helpers.yes_or_no(laundry)}</td>
+          </tr>
+        </table>
+
+        <p>Pros:</p>
+        ${helpers.list(pros)}
+
+        <p>Cons:</p>
+        ${helpers.list(cons)}
+
+        <p>Other:</p>
+        ${helpers.list(other)}
+      </div>
+
+      <div class="address">
+        ${address}<br />
+        ${city_state_zip}, ${country}
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+  </script>
+
+  <script type="text/javascript">
+    var apartments = <%= @apartments.to_json.html_safe %>;
+  </script>
+
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false">
   </script>
+
   <script type="text/javascript">
-    function initialize() {
-      var marker;
-      var latlng = new google.maps.LatLng(37.77472, -122.41190);
+    $(document).ready(function () {
+      var infowindow = new google.maps.InfoWindow();;
 
-      var myOptions = {
+      var map = new google.maps.Map(document.getElementById("map_canvas"), {
         zoom: 13,
-        center: latlng,
+        center: new google.maps.LatLng(37.77472, -122.41190),
         mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
+      });
 
-      var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-      var addApartment = function (name, price, lat, lng) {
+      $.each(apartments, function (index, apartment) {
+        var latlng = new google.maps.LatLng(apartment.latitude, apartment.longitude);
         var marker = new google.maps.Marker({
-          title: price + " -- " + name,
-          position: new google.maps.LatLng(lat, lng),
+          title: apartment.price + " -- " + apartment.title,
+          position: latlng,
           map: map
         });
-      }
 
-<% @apartments.each do |apartment| %>
-  <% next if apartment.latitude.nil? || apartment.longitude.nil? %>
-  addApartment(
-    "<%= escape_javascript(apartment.title) %>",
-    "<%= escape_javascript(price(apartment.price)) %>",
-    <%= apartment.latitude %>, <%= apartment.longitude %>
-  );
-<% end %>
-    }
+        google.maps.event.addListener(marker, 'click', function (evt) {
+          infowindow.setContent($("#infoWindowTemplate").tmpl(apartment).get(0));
+          infowindow.setPosition(latlng);
+          infowindow.open(map);
+        });
+      });
+    });
   </script>
 <% end %>
 
-<div id="map_canvas" style="width:100%; height:100%"></div>
+<div id="map_canvas"></div>
+<div id="sidebar"></div>

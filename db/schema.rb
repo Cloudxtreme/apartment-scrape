@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20101219032133) do
     t.string   "bedrooms"
     t.string   "link"
     t.datetime "posted_at"
+    t.integer  "floor_space"
     t.boolean  "cats"
     t.decimal  "cats_deposit"
     t.decimal  "cats_rent"
@@ -32,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20101219032133) do
     t.string   "country"
     t.float    "latitude"
     t.float    "longitude"
+    t.integer  "score"
     t.boolean  "ignore",         :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
