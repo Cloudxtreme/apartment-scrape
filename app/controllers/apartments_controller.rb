@@ -1,83 +1,69 @@
 class ApartmentsController < ApplicationController
-  # GET /apartments
-  # GET /apartments.xml
+  before_filter :apply_filters, :only => [:index, :map]
+  before_filter :load_resource, :only => [:show, :edit, :update, :destroy]
+
   def index
-    @apartments = Apartment.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @apartments }
-    end
+    #@apartments = Apartment.all
   end
 
-  # GET /apartments/1
-  # GET /apartments/1.xml
+  def map
+    #@apartments = Apartment.all
+  end
+
   def show
-    @apartment = Apartment.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @apartment }
-    end
   end
 
-  # GET /apartments/new
-  # GET /apartments/new.xml
   def new
     @apartment = Apartment.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @apartment }
-    end
   end
 
-  # GET /apartments/1/edit
   def edit
-    @apartment = Apartment.find(params[:id])
   end
 
-  # POST /apartments
-  # POST /apartments.xml
   def create
     @apartment = Apartment.new(params[:apartment])
 
-    respond_to do |format|
-      if @apartment.save
-        format.html { redirect_to(@apartment, :notice => 'Apartment was successfully created.') }
-        format.xml  { render :xml => @apartment, :status => :created, :location => @apartment }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @apartment.errors, :status => :unprocessable_entity }
-      end
+    if @apartment.save
+      redirect_to(@apartment, :notice => 'Apartment was successfully created.')
+    else
+      render :action => "new"
     end
   end
 
-  # PUT /apartments/1
-  # PUT /apartments/1.xml
   def update
-    @apartment = Apartment.find(params[:id])
-
-    respond_to do |format|
-      if @apartment.update_attributes(params[:apartment])
-        format.html { redirect_to(@apartment, :notice => 'Apartment was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @apartment.errors, :status => :unprocessable_entity }
-      end
+    if @apartment.update_attributes(params[:apartment])
+      redirect_to(@apartment, :notice => 'Apartment was successfully updated.')
+    else
+      render :action => "edit"
     end
   end
 
-  # DELETE /apartments/1
-  # DELETE /apartments/1.xml
   def destroy
-    @apartment = Apartment.find(params[:id])
-    @apartment.destroy
+    @apartment.ignore = true
+    @apartment.save
+  end
 
-    respond_to do |format|
-      format.html { redirect_to(apartments_url) }
-      format.xml  { head :ok }
-    end
+  private
+
+  def apply_filters
+    filters = []
+    filters << {:cats => parse_boolean(params[:cats])} if params[:cats]
+    filters << "address NOT NULL" if params[:address]
+    filters << ['price < ?', params[:max_price]] if params[:max_price]
+
+    apts = (filters.inject(Apartment) {|memo,fltr| memo.where(fltr)})
+    @apartments = apts.order(parse_sort(params[:sort]))
+  end
+
+  def load_resource
+    @apartment = Apartment.find(params[:id])
+  end
+
+  def parse_boolean(val)
+    val == 'Y'
+  end
+
+  def parse_sort(sort)
+    sort ? sort : 'id ASC'
   end
 end
