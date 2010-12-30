@@ -1,9 +1,10 @@
 require 'open-uri'
 
 class CraigslistUpdater
-  def initialize(base_url, options={})
+  def initialize(base_url, options={}, &block)
     @base_url = base_url
     @options = options
+    @filter = block
   end
 
   def perform
@@ -49,7 +50,9 @@ class CraigslistUpdater
       return true
     end
 
+    @filter.call(apt)
     apt.save!
+
     @new_count += 1
     $stdout.write '.'
     return done?(apt)

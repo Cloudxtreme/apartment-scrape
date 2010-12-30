@@ -36,13 +36,6 @@ class Apartment < ActiveRecord::Base
       attributes[:country] = query[:country]
     end
 
-    apt = self.new(attributes)
-
-    unless apt.address.blank?
-      result = Geokit::Geocoders::GoogleGeocoder.geocode(apt.full_address)
-      apt.latitude = result.lat
-      apt.longitude = result.lng
-    end
-    apt
+    self.new(attributes)
   end
 end
